@@ -1,0 +1,116 @@
+owner: Aidelly
+repo: status
+
+# ---------------------------------------------------------------------------
+# What we monitor, and what each check actually proves.
+#
+# Aidelly's own services are probed through purpose-built endpoints that
+# disclose nothing but a status word. Platform APIs are probed at their real
+# API hosts, with the status code each returns when healthy: an unauthenticated
+# request to a working API answers 400/401/403 deterministically, so a 5xx or a
+# timeout is a genuine signal. See the caveat in introMessage: these detect
+# hard outages, not partial degradation.
+# ---------------------------------------------------------------------------
+
+sites:
+  # --- Aidelly services. These carry the Agency SLA. ---
+  - name: App and dashboard
+    url: https://app.aidelly.ai/api/health
+    # Proves the app answers and the database is reachable.
+
+  - name: Publishing
+    url: https://app.aidelly.ai/api/health/publishing
+    # Proves scheduled posts that are due have actually gone out.
+    # 503 here means an overdue backlog, not that the app is down.
+
+  - name: Public API
+    url: https://app.aidelly.ai/api/public/v1/posts
+    expectedStatusCodes:
+      - 401
+    # 401 is the healthy answer: the route is up and auth is enforced.
+
+  - name: MCP server
+    url: https://app.aidelly.ai/api/mcp
+    expectedStatusCodes:
+      - 401
+
+  # --- Platform APIs. Displayed for transparency; NOT covered by SLA credits. ---
+  - name: Instagram and Facebook
+    url: https://graph.facebook.com/v21.0/me
+    expectedStatusCodes:
+      - 400
+
+  - name: Threads
+    url: https://graph.threads.net/v1.0/me
+    expectedStatusCodes:
+      - 400
+
+  - name: LinkedIn
+    url: https://api.linkedin.com/v2/me
+    expectedStatusCodes:
+      - 401
+
+  - name: X
+    url: https://api.twitter.com/2/users/me
+    expectedStatusCodes:
+      - 401
+
+  - name: TikTok
+    url: https://open.tiktokapis.com/v2/user/info/
+    expectedStatusCodes:
+      - 401
+
+  - name: YouTube
+    url: https://www.googleapis.com/youtube/v3/channels
+    expectedStatusCodes:
+      - 403
+
+  - name: Pinterest
+    url: https://api.pinterest.com/v5/user_account
+    expectedStatusCodes:
+      - 401
+
+  - name: Google Business Profile
+    url: https://mybusinessaccountmanagement.googleapis.com/v1/accounts
+    expectedStatusCodes:
+      - 401
+
+  - name: Bluesky
+    url: https://bsky.social/xrpc/com.atproto.server.describeServer
+
+  - name: Mastodon
+    url: https://mastodon.social/api/v1/instance
+
+status-website:
+  cname: status.aidelly.ai
+  name: Aidelly Status
+  introTitle: "Aidelly system status"
+  introMessage: |
+    Live status for Aidelly and for the social platforms we publish to.
+
+    This page is hosted independently of Aidelly's own infrastructure, so it
+    stays up when we do not.
+
+    **Platform APIs** are shown so you can tell whether a publishing problem is
+    ours or the network's. These checks detect outright outages and cannot see
+    partial degradation, so a green platform is not a guarantee that every
+    endpoint behind it is healthy.
+
+    Checks run every five minutes. Service credits under the Agency SLA apply
+    to **App and dashboard** and **Publishing** only.
+  navbar:
+    - title: Status
+      href: /
+    - title: Aidelly
+      href: https://www.aidelly.ai
+    - title: Security
+      href: https://www.aidelly.ai/security
+    - title: Contact
+      href: https://www.aidelly.ai/contact
+
+# Do not open an issue for a blip shorter than this.
+skipDescriptionUpdate: false
+commitMessages:
+  readmeContent: "#template: Status summary in README. Do not edit manually."
+  summaryContent: "#template: Status summary. Do not edit manually."
+  statusChange: "$EMOJI $SITE_NAME is $STATUS ($RESPONSE_CODE in $RESPONSE_TIME ms)"
