@@ -84,6 +84,55 @@ sites:
 status-website:
   cname: status.aidelly.ai
   name: Aidelly Status
+  logoUrl: https://www.aidelly.ai/logos/aidelly-mint-transparent.png
+  favicon: https://www.aidelly.ai/favicon.ico
+
+  # Plus Jakarta Sans stands in for the landing site's Satoshi and General
+  # Sans. Those are next/font/local files served from hashed, unstable paths
+  # with no CORS, so they cannot be reused here. This is the closest free
+  # equivalent, and a near match beats a hotlink that breaks on every deploy.
+  links:
+    - rel: preconnect
+      href: https://fonts.googleapis.com
+    - rel: preconnect
+      href: https://fonts.gstatic.com
+      crossorigin: true
+    - rel: stylesheet
+      href: https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap
+
+  # Aidelly palette, from landing/tailwind.config.ts and
+  # src/lib/branding/defaults.ts. Mint (#89E9D9) is signal and decoration
+  # only: at 2.1:1 on white it fails WCAG AA, so every text and button use
+  # takes mint-deep (#0F7A67) instead, matching the landing site's own rule.
+  #
+  # Up/down/degraded keep their conventional green, red and amber. Semantic
+  # status colour is not brand colour: a viewer must read "down" instantly
+  # without learning our palette first.
+  css: |
+    :root {
+      --body-background-color: #F5FAF9;
+      --body-text-color: #0F2926;
+      --card-background-color: #FFFFFF;
+      --card-border-color: #E1EDEA;
+      --nav-background-color: #FFFFFF;
+      --nav-border-bottom-color: #D5F9F1;
+      --nav-current-border-bottom-color: #0F7A67;
+      --submit-button-background-color: #0F7A67;
+      --submit-button-border-color: #0C6154;
+      --submit-button-color: #FFFFFF;
+      --error-button-background-color: #0F7A67;
+      --error-button-border-color: #0C6154;
+      --error-button-color: #FFFFFF;
+    }
+    body {
+      font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui,
+        -apple-system, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3 { letter-spacing: -0.015em; }
+    a { color: #0F7A67; }
+    a:hover { color: #0C6154; }
+
   introTitle: "Aidelly system status"
   introMessage: |
     Live status for Aidelly and for the social platforms we publish to.
