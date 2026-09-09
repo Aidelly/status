@@ -22,19 +22,19 @@
     "url": "https://app.aidelly.ai/api/health/publishing",
     "icon": "https://icons.duckduckgo.com/ip3/app.aidelly.ai.ico",
     "slug": "publishing",
-    "status": "down",
-    "uptime": "100.00%",
-    "uptimeDay": "99.99%",
-    "uptimeWeek": "100.00%",
-    "uptimeMonth": "100.00%",
-    "uptimeYear": "100.00%",
-    "time": 215,
-    "timeDay": 282,
-    "timeWeek": 221,
-    "timeMonth": 215,
-    "timeYear": 215,
+    "status": "up",
+    "uptime": "95.77%",
+    "uptimeDay": "66.26%",
+    "uptimeWeek": "95.18%",
+    "uptimeMonth": "95.77%",
+    "uptimeYear": "95.77%",
+    "time": 221,
+    "timeDay": 280,
+    "timeWeek": 227,
+    "timeMonth": 221,
+    "timeYear": 221,
     "dailyMinutesDown": {
-      "2026-09-09": 0
+      "2026-09-09": 486
     }
   },
   {
